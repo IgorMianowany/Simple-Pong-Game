@@ -21,10 +21,10 @@ public class Pong extends Application {
 
     private final double width = 700;
     private final double height = 500;
-    private final Player player = new Player();
-    private final Player opponent = new Player();
+    private final Player player = new Player(10);
+    private final Player opponent = new Player((int) width - 20);
     private final Score score = new Score();
-    private final Ball ball = new Ball(width/2, height/2, score);
+    private final Ball ball = new Ball(width/2, height/2, score, player, opponent);
 
     private boolean gameStarted;
 
@@ -36,8 +36,8 @@ public class Pong extends Application {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10),e -> run(graphicsContext) ));
         timeline.setCycleCount(Animation.INDEFINITE);
 
-        canvas.setOnMouseMoved(e -> player.setY(e.getY()));
         canvas.setOnMouseClicked(e -> gameStarted = true );
+        canvas.setOnMouseMoved(e -> player.setY(e.getY() - player.getHeight()/2));
 
         Scene scene = new Scene(new StackPane(canvas));
         stage.setScene(scene);
@@ -54,12 +54,16 @@ public class Pong extends Application {
         graphicsContext.setFont(Font.font(25));
 
         if(gameStarted){
-            ball.moveBall();
+            ball.movement();
 
             //Opponent
-            opponent.setY(ball.getY());
+            opponent.setY(ball.getY() - opponent.getHeight()/2);
 
             graphicsContext.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius() );
+
+            graphicsContext.fillRect(player.getX(),player.getY(),player.getWidth(),player.getHeight());
+            graphicsContext.fillRect(opponent.getX(),opponent.getY(),opponent.getWidth(),opponent.getHeight());
+
         }
         else{
             graphicsContext.setStroke(Color.WHITE);
@@ -68,6 +72,8 @@ public class Pong extends Application {
 
             ball.resetBallPositionAndSpeed();
         }
+
+        ball.moveBall();
 
         graphicsContext.setStroke(Color.WHITE);
         graphicsContext.setTextAlign(TextAlignment.CENTER);

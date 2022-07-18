@@ -22,13 +22,19 @@ public class Ball {
 
     private String lastPoint = null;
 
-    public Ball(double aStartingX, double aStartingY,Score aScore){
+    private final Player leftPlayer;
+
+    private final Player rightPlayer;
+
+    public Ball(double aStartingX, double aStartingY,Score aScore, Player aLeftPlayer, Player aRightPlayer){
         x = aStartingX;
         y = aStartingY;
         startingX = x;
         startingY = y;
         score = aScore;
         support = new PropertyChangeSupport(this);
+        leftPlayer = aLeftPlayer;
+        rightPlayer = aRightPlayer;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -73,11 +79,30 @@ public class Ball {
         return radius;
     }
 
-    public void moveBall(){
+    public void bounce(){
+
+    }
+
+    public void movement(){
         setX(getX() + getSpeedX());
         setY(getY() + getSpeedY());
+    }
+
+    public void moveBall(){
         if(getY() >= startingY * 2 || getY() <= 0){
             setSpeedY(getSpeedY()*-1);
+        }
+
+        if( ((getX() > rightPlayer.getX() - rightPlayer.getWidth())
+                && getY() >= rightPlayer.getY()
+                && getY() <= rightPlayer.getY() + rightPlayer.getHeight())
+                ||
+                ((getX() < leftPlayer.getX() + leftPlayer.getWidth())
+                && getY() >= leftPlayer.getY()
+                && getY() <= leftPlayer.getY() + leftPlayer.getHeight())) {
+            speedY += Math.signum(speedY);
+            speedX += Math.signum(speedX);
+            speedX *= -1;
         }
 
         if(getX() >= startingX * 2 || getX() <= 0){
