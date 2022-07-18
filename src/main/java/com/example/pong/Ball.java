@@ -10,11 +10,11 @@ public class Ball {
     private double y;
     private final double startingX;
     private final double startingY;
-    private double speed = 0.5;
+    private double speed = 1;
     private double speedY = speed;
     private double speedX = speed;
 
-    private Score score;
+    private final Score score;
 
     private final PropertyChangeSupport support;
     private final static String LEFT = "LEFT";
