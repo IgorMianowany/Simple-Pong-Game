@@ -10,9 +10,9 @@ public class Ball {
     private double y;
     private final double startingX;
     private final double startingY;
-    private int speed = 2;
-    private int speedY = speed;
-    private int speedX = speed;
+    private double speed = 0.5;
+    private double speedY = speed;
+    private double speedX = speed;
 
     private Score score;
 
@@ -59,19 +59,19 @@ public class Ball {
     }
 
 
-    public int getSpeedY() {
+    public double getSpeedY() {
         return speedY;
     }
 
-    public int getSpeedX() {
+    public double getSpeedX() {
         return speedX;
     }
 
-    public void setSpeedX(int speedX) {
+    public void setSpeedX(double speedX) {
         this.speedX = speedX;
     }
 
-    public void setSpeedY(int aSpeedY) {
+    public void setSpeedY(double aSpeedY) {
         speedY = aSpeedY;
     }
 
@@ -89,19 +89,19 @@ public class Ball {
     }
 
     public void moveBall(){
-        if(getY() >= startingY * 2 || getY() <= 0){
+        if(getY() + radius/2 >= startingY * 2 || getY() + radius/2 <= 0){
             setSpeedY(getSpeedY()*-1);
         }
 
-        if( ((getX() > rightPlayer.getX() - rightPlayer.getWidth())
+        if(((getX() > rightPlayer.getX() - rightPlayer.getWidth())
                 && getY() >= rightPlayer.getY()
                 && getY() <= rightPlayer.getY() + rightPlayer.getHeight())
                 ||
                 ((getX() < leftPlayer.getX() + leftPlayer.getWidth())
                 && getY() >= leftPlayer.getY()
                 && getY() <= leftPlayer.getY() + leftPlayer.getHeight())) {
-            speedY += Math.signum(speedY);
-            speedX += Math.signum(speedX);
+            speedY = speedY + Math.signum(speedY) - .5;
+            speedX = speedX + Math.signum(speedX) - .5;
             speedX *= -1;
         }
 
