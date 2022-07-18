@@ -46,7 +46,6 @@ public class Pong extends Application {
     }
 
     private void run(GraphicsContext graphicsContext) {
-        ball.addPropertyChangeListener(score);
         graphicsContext.setFill(Color.BLACK);
         graphicsContext.fillRect(0,0,width,height);
 
@@ -60,6 +59,10 @@ public class Pong extends Application {
             opponent.setY(ball.getY() - opponent.getHeight()/2);
 
             graphicsContext.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius() );
+
+            for(int i = 0; i < 50;i++){
+                graphicsContext.fillRect(width/2,10+10*i,2,5);
+            }
 
             graphicsContext.fillRect(player.getX(),player.getY(),player.getWidth(),player.getHeight());
             graphicsContext.fillRect(opponent.getX(),opponent.getY(),opponent.getWidth(),opponent.getHeight());

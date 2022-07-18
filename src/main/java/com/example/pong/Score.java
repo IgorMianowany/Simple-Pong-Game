@@ -1,13 +1,9 @@
 package com.example.pong;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-public class Score implements PropertyChangeListener {
+public class Score {
 
     private int leftPlayerScore = 0;
     private int rightPlayerScore = 0;
-    private String lastPoint = null;
 
     public int getLeftPlayerScore() {
         return leftPlayerScore;
@@ -27,16 +23,7 @@ public class Score implements PropertyChangeListener {
     }
 
     public String getScore(){
-        return getLeftPlayerScore() + " : " + getRightPlayerScore();
+        return getLeftPlayerScore() + " \t " + getRightPlayerScore();
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals("RIGHT")){
-            lastPoint = "RIGHT";
-        }
-        else if(evt.getPropertyName().equals("LEFT")){
-            lastPoint = "LEFT";
-        }
-    }
 }

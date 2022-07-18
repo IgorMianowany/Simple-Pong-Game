@@ -10,7 +10,7 @@ public class Ball {
     private double y;
     private final double startingX;
     private final double startingY;
-    private double speed = 1;
+    private final double speed = 1;
     private double speedY = speed;
     private double speedX = speed;
 
