@@ -23,8 +23,9 @@ public class Pong extends Application {
     private final double height = 500;
     private final Player player = new Player();
     private final Player opponent = new Player();
-    private final Ball ball = new Ball(width/2, height/2);
     private final Score score = new Score();
+    private final Ball ball = new Ball(width/2, height/2, score);
+
     private boolean gameStarted;
 
     @Override

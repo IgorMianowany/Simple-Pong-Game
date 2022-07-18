@@ -10,23 +10,30 @@ public class Ball {
     private double y;
     private final double startingX;
     private final double startingY;
-    private int speedY = 3;
-    private int speedX = 3;
+    private int speed = 2;
+    private int speedY = speed;
+    private int speedX = speed;
+
+    private Score score;
 
     private final PropertyChangeSupport support;
     private final static String LEFT = "LEFT";
     private final static String RIGHT = "RIGHT";
 
-    public Ball(double aStartingX, double aStartingY){
+    private String lastPoint = null;
+
+    public Ball(double aStartingX, double aStartingY,Score aScore){
         x = aStartingX;
         y = aStartingY;
         startingX = x;
         startingY = y;
+        score = aScore;
         support = new PropertyChangeSupport(this);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        support.addPropertyChangeListener(pcl);
+        support.addPropertyChangeListener(LEFT,pcl);
+        support.addPropertyChangeListener(RIGHT,pcl);
     }
 
     public double getX() {
@@ -72,23 +79,26 @@ public class Ball {
         if(getY() >= startingY * 2 || getY() <= 0){
             setSpeedY(getSpeedY()*-1);
         }
+
         if(getX() >= startingX * 2 || getX() <= 0){
             if(getX() >= startingX * 2){
-                support.firePropertyChange("LEFT",null,"LEFT");
+                lastPoint = LEFT;
+                score.addLeftPlayerPoint();
             }
             else if (getX()<=0){
-                support.firePropertyChange("RIGHT",null,"RIGHT");
+                lastPoint = RIGHT;
+                score.addRightPlayerPoint();
             }
             resetBallPositionAndSpeed();
         }
     }
 
     public void resetBallPositionAndSpeed(){
+        support.firePropertyChange(lastPoint,null,lastPoint);
         x = startingX;
         y = startingY;
-//        speedX = new Random().nextInt(2) == 0 ? 1: -1;
-//        speedY = new Random().nextInt(2) == 0 ? 1: -1;
-        speedX = speedX * -1;
+        speedX = new Random().nextInt(2) == 0 ? speed: -speed;
+        speedY = new Random().nextInt(2) == 0 ? speed: -speed;
 
 
     }

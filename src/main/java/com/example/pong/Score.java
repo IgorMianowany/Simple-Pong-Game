@@ -7,6 +7,7 @@ public class Score implements PropertyChangeListener {
 
     private int leftPlayerScore = 0;
     private int rightPlayerScore = 0;
+    private String lastPoint = null;
 
     public int getLeftPlayerScore() {
         return leftPlayerScore;
@@ -26,17 +27,16 @@ public class Score implements PropertyChangeListener {
     }
 
     public String getScore(){
-        return leftPlayerScore + " : " + rightPlayerScore;
+        return getLeftPlayerScore() + " : " + getRightPlayerScore();
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String value = (String) evt.getNewValue();
-        if(value.equals("RIGHT")){
-            addRightPlayerPoint();
+        if(evt.getPropertyName().equals("RIGHT")){
+            lastPoint = "RIGHT";
         }
-        else if(value.equals("LEFT")){
-            addLeftPlayerPoint();
+        else if(evt.getPropertyName().equals("LEFT")){
+            lastPoint = "LEFT";
         }
     }
 }
